@@ -12,6 +12,7 @@ def parse_args():
     parser.add_argument("--gold-file", required=True)
     parser.add_argument("--predictions-file", default=None)
     parser.add_argument("--predictions-dir", default=None)
+    parser.add_argument("--output-file", default=None)
     return parser.parse_args()
 
 class ScoreEvaluator(object):
@@ -152,7 +153,9 @@ def parse_file(gold_file, predictions_file):
     overall = score_evaluator.get_overall_results()
     score_evaluator.pretty_print(overall)
 
-    if args.predictions_dir!=None:
+    if args.output_file:
+        output_file = args.output_file
+    elif args.predictions_dir!=None:
         predictions_dir = args.predictions_dir
         if predictions_dir[-1]=="/":
             predictions_dir = predictions_dir[:-1]
@@ -166,8 +169,14 @@ def parse_file(gold_file, predictions_file):
     else:
         d = {}
 
-    pretrained_class = os.path.basename(predictions_file).split("_")[1]
-    d[pretrained_class] = overall
+    # assuming the file follows a format of "predictions_{MODELNAME}.json"
+    predictions_filename = os.path.basename(predictions_file)
+    if "predictions_" in predictions_filename: 
+        pretrained_class = predictions_filename.split("_")[1]
+        d[pretrained_class] = overall
+    else:
+        d = overall
+
     with open(output_file, "w+") as f:
         json.dump(d, f, indent=2)
 
