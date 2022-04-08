@@ -10,6 +10,8 @@
 
 This repository contains an extensible codebase to measure stereotypical bias on new pretrained models, as well as code to replicate our results. We encourage the community to use this as a springboard for further evaluation of bias in pretrained language models, and to submit attempts to mitigate bias to the [leaderboard](http://stereoset.mit.edu).
 
+**Note:** This repository is currently not actively maintained. For updated code and the full test set, see the [Bias Bench](https://github.com/McGill-NLP/bias-bench) repository.
+
 ## Installation
 1. Clone the repository: `git clone https://github.com/moinnadeem/stereoset.git`
 2. Install the requirements: `cd stereoset && pip install -r requirements.txt`
